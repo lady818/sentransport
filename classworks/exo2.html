@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>exo2</title>
+</head>
+<body>
+    <script type="text/babel">
+        function Movies({movie_list}){
+            return (
+                <table className="table table-striped" border="1">
+                    <thead> 
+                        <tr>
+                            <th>ID</th>
+                            <th>TITLE</th>
+                            <th>Year</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {movie_list.map(movie => (
+                            <tr key={movie.id}>
+                                <td>{movie.id}</td>
+                                <td>{movie.title}</td>
+                                <td>{movie.realeaseYear}</td>
+                            </tr>
+                        ))}
+                    </tbody>
+                </table>
+            );
+        }
+        function App(){
+            const [title, setTitle]= React.useState("");
+            const [films, setFilm]= React.useState([]);
+            const [isReady, setReady]= React.useState(false);
+
+            React.useEffect(() => {
+                 fetch("https://reactnative.dev/movies.json")
+                    .then(result => result.json())
+                    .then(jsonresult => {
+                      setTitle(jsonresult.title);
+                      setFilm(jsonresult.movies);
+                      setReady(true);
+                    });
+                    .catch(err => console.error(err));
+            }, []);
+        }
+
+</body>
+</html>
