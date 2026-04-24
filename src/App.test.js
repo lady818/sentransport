@@ -1,8 +1,12 @@
-import { render, screen } from '@testing-library/react';
-import App from './App';
+import { render, screen } from "@testing-library/react";
+import App from "./App";
 
-test('renders learn react link', () => {
+test("renders app header and bus lines title", () => {
   render(<App />);
-  const linkElement = screen.getByText(/learn react/i);
-  expect(linkElement).toBeInTheDocument();
+  expect(
+    screen.getByRole("heading", { name: /SenTransport/i, level: 1 })
+  ).toBeInTheDocument();
+  expect(
+    screen.getByRole("heading", { name: /Lignes Dakar Dem Dikk/i, level: 2 })
+  ).toBeInTheDocument();
 });
