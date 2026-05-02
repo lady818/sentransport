@@ -1,4 +1,4 @@
-/*.App {
+﻿/*.App {
   font-family: Arial, sans-serif;
   min-height: 100vh;
 }
@@ -29,5 +29,47 @@
 @media (max-width: 600px) {
   .contenu {
     padding: 12px;
+  }
+  .ligne-bus {
+    padding: 10px 12px;
+    margin: 6px 0;
+  }
+    .ligne-numero {
+    width: 42px;
+    height: 42px;
+    font-size: 1rem;
+    margin-right: 10px;
+  }
+  .liste-lignes {
+    padding: 0 4px;
+  }
+  .liste-titre {
+    font-size: 1.2rem;
+  }
+  .liste-description {
+    font-size: 0.82rem;
+    margin-bottom: 10px;
+  }
+  .ligne-bus:hover {
+    transform: none;
+  }
+  .ligne-trajet {
+    font-size: 0.92rem;
+  }
+  .ligne-arrets {
+    font-size: 0.8rem;
+  }
+  .detail-ligne {
+    padding: 12px;
+    border-radius: 8px;
+  }
+  .detail-ligne h3 {
+    font-size: 1rem;
+  }
+  .detail-ligne h4 {
+    font-size: 0.95rem;
+  }
+  .detail-ligne ul {
+    padding-left: 16px;
   }
 }

@@ -1,53 +1,16 @@
-/* import "./App.css";
-import Header from "./Header";
-import Footer from "./Footer";
-import Statistique from "./Statistique";
-import LigneBus from "./LigneBus ";
-
-function App() {
-  return (
-    <div className="App">
-      <Header />
-
-      <main className="contenu">
-        <p>
-          Bienvenue ! Cette application vous aide à trouver votre ligne de bus à
-          Dakar.
-        </p>
-        <div style={{ display: "flex", justifyContent: "center" }}>
-          <Statistique />
-          <Statistique />
-          <Statistique />
-        </div>
-
-        <LigneBus
-          numero="15"
-          depart="Parcelles Assainies"
-          arrivee="Plateau"
-          arrets={14}
-        />
-
-        <LigneBus
-          numero="7"
-          depart="Guédiawaye"
-          arrivee="Place Obelisk"
-          arrets={18}
-        />
-      </main>
-      <Footer />
-    </div>
-  );
-}
-
-export default App;*/
-
 import "./App.css";
+import { useState } from "react";
 import Header from "./Header";
-import ListeLignes from "./ListeLignes";
 import Footer from "./Footer";
+import ListeLignes from "./ListeLignes";
 import StatReseau from "./StatReseau";
+import Recherche from "./Recherche";
+import DetailLigne from "./DetailLigne";
 
 function App() {
+  const [recherche, setRecherche] = useState("");
+  const [ligneSelectionnee, setLigneSelectionnee] = useState(null);
+
   const lignes = [
     {
       id: 1,
@@ -55,23 +18,44 @@ function App() {
       depart: "Parcelles Assainies",
       arrivee: "Plateau",
       arrets: 14,
-      couleur: "#0A6E31",
+      couleur: "#e74c3c",
+      listeArrets: [
+        "Parcelles U14",
+        "Parcelles U10",
+        "Camberene",
+        "Patte d'Oie",
+        "Grand Dakar",
+        "Colobane",
+        "Ponty",
+        "Plateau",
+      ],
     },
     {
       id: 2,
       numero: "7",
-      depart: "Guédiawaye",
-      arrivee: "Place Obelisk",
+      depart: "Guediawaye",
+      arrivee: "Place Obe",
       arrets: 18,
-      couleur: "#1E88E5",
+      couleur: "#3498db",
+      listeArrets: [
+        "Guediawaye",
+        "Pikine",
+        "Thiaroye",
+        "Keur Massar",
+        "Grand Yoff",
+        "Parcelles",
+        "Liberte 6",
+        "Place Obe",
+      ],
     },
     {
       id: 3,
       numero: "15",
       depart: "Pikine",
-      arrivee: "Médina",
+      arrivee: "Medina",
       arrets: 12,
-      couleur: "#FB8C00",
+      couleur: "#2ecc71",
+      listeArrets: ["Pikine Centre", "Thiaroye Gare", "Hann", "Colobane", "Fass", "Medina"],
     },
     {
       id: 4,
@@ -79,7 +63,8 @@ function App() {
       depart: "Ouakam",
       arrivee: "Grand Dakar",
       arrets: 10,
-      couleur: "#8E24AA",
+      couleur: "#f39c12",
+      listeArrets: ["Ouakam Village", "Mermoz", "Fann", "Point E", "Liberte 5", "Grand Dakar"],
     },
     {
       id: 5,
@@ -87,7 +72,8 @@ function App() {
       depart: "Almadies",
       arrivee: "Colobane",
       arrets: 16,
-      couleur: "#E53935",
+      couleur: "#9b59b6",
+      listeArrets: ["Almadies", "Ngor", "Yoff", "Ouest Foire", "Liberte 6", "Colobane"],
     },
     {
       id: 6,
@@ -95,49 +81,34 @@ function App() {
       depart: "Yoff",
       arrivee: "Sandaga",
       arrets: 11,
-      couleur: "#00897B",
-    },
-    {
-      id: 7,
-      numero: "31",
-      depart: "Fann",
-      arrivee: "Liberté 6",
-      arrets: 13,
-      couleur: "#3949AB",
-    },
-    {
-      id: 8,
-      numero: "36",
-      depart: "Médina",
-      arrivee: "Dieuppeul",
-      arrets: 9,
-      couleur: "#6D4C41",
-    },
-    {
-      id: 9,
-      numero: "40",
-      depart: "Sicap",
-      arrivee: "HLM",
-      arrets: 8,
-      couleur: "#7CB342",
-    },
-    {
-      id: 10,
-      numero: "52",
-      depart: "Liberté 5",
-      arrivee: "Fann",
-      arrets: 15,
-      couleur: "#F4511E",
+      couleur: "#1abc9c",
+      listeArrets: ["Yoff Village", "Aeroport LSS", "Parcelles U17", "Grand Yoff", "HLM", "Sandaga"],
     },
   ];
+
+  const lignesFiltrees = lignes.filter((ligne) => {
+    const terme = recherche.toLowerCase();
+    return (
+      ligne.numero.toLowerCase().includes(terme) ||
+      ligne.depart.toLowerCase().includes(terme) ||
+      ligne.arrivee.toLowerCase().includes(terme)
+    );
+  });
 
   return (
     <div className="App">
       <Header />
 
       <main className="contenu">
-        <StatReseau lignes={lignes} />
-        <ListeLignes lignes={lignes} />
+        <p>Bienvenue ! Cette application vous aide a trouver votre ligne de bus a Dakar.</p>
+        <Recherche valeur={recherche} onChange={setRecherche} />
+        <StatReseau lignes={lignesFiltrees} />
+        <ListeLignes
+          lignes={lignesFiltrees}
+          ligneSelectionneeId={ligneSelectionnee ? ligneSelectionnee.id : null}
+          onSelect={setLigneSelectionnee}
+        />
+        <DetailLigne ligne={ligneSelectionnee} />
       </main>
 
       <Footer />

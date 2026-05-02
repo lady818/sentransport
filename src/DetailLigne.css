@@ -1,0 +1,28 @@
+.detail-ligne {
+  margin-top: 18px;
+  background: #ffffff;
+  border: 1px solid #dbe4f0;
+  border-radius: 10px;
+  padding: 16px;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.06);
+}
+
+.detail-ligne h3,
+.detail-ligne h4 {
+  margin-top: 0;
+  color: #0f172a;
+}
+
+.detail-ligne p {
+  margin: 6px 0;
+}
+
+.detail-ligne ul {
+  margin: 10px 0 0;
+  padding-left: 20px;
+}
+
+.detail-vide {
+  color: #475569;
+  font-style: italic;
+}

@@ -9,10 +9,20 @@
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
   cursor: pointer;
   transition: transform 0.2s, box-shadow 0.2s;
+  width: 100%;
+  text-align: left;
+  font: inherit;
+  border-top: none;
+  border-right: none;
+  border-bottom: none;
 }
 .ligne-bus:hover {
   transform: translateX(4px);
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+}
+
+.ligne-bus-active {
+  outline: 2px solid #2563eb;
 }
 
 .ligne-numero {

@@ -3,9 +3,10 @@ import "./Statistique.css";
 function StatReseau({ lignes }) {
   const totalLignes = lignes.length;
   const totalArrets = lignes.reduce((somme, ligne) => somme + ligne.arrets, 0);
-  const lignePlusArrets = lignes.reduce((max, ligne) =>
-    ligne.arrets > max.arrets ? ligne : max
-  );
+  const lignePlusArrets =
+    lignes.length > 0
+      ? lignes.reduce((max, ligne) => (ligne.arrets > max.arrets ? ligne : max))
+      : null;
 
   return (
     <section
@@ -17,11 +18,11 @@ function StatReseau({ lignes }) {
       </div>
       <div className="stat">
         <h2>{totalArrets}</h2>
-        <p>Arrêts (total)</p>
+        <p>Arrets (total)</p>
       </div>
       <div className="stat">
-        <h2>{lignePlusArrets.numero}</h2>
-        <p>Plus d'arrêts</p>
+        <h2>{lignePlusArrets ? lignePlusArrets.numero : "-"}</h2>
+        <p>Plus d'arrets</p>
       </div>
     </section>
   );
