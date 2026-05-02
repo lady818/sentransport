@@ -10,6 +10,7 @@ import DetailLigne from "./DetailLigne";
 function App() {
   const [recherche, setRecherche] = useState("");
   const [ligneSelectionnee, setLigneSelectionnee] = useState(null);
+  const [nbRecherches, setNbRecherches] = useState(0);
 
   const lignes = [
     {
@@ -100,14 +101,26 @@ function App() {
       <Header />
 
       <main className="contenu">
+        <p>Vous avez effectue {nbRecherches} recherche(s).</p>
         <p>Bienvenue ! Cette application vous aide a trouver votre ligne de bus a Dakar.</p>
-        <Recherche valeur={recherche} onChange={setRecherche} />
-        <StatReseau lignes={lignesFiltrees} />
-        <ListeLignes
-          lignes={lignesFiltrees}
-          ligneSelectionneeId={ligneSelectionnee ? ligneSelectionnee.id : null}
-          onSelect={setLigneSelectionnee}
+        <Recherche
+          valeur={recherche}
+          onChange={(valeur) => {
+            setRecherche(valeur);
+            setNbRecherches((n) => n + 1);
+          }}
+          onClear={() => setRecherche("")}
         />
+        <StatReseau lignes={lignesFiltrees} />
+        {lignesFiltrees.length === 0 ? (
+          <p>Aucune ligne trouvee.</p>
+        ) : (
+          <ListeLignes
+            lignes={lignesFiltrees}
+            ligneSelectionneeId={ligneSelectionnee ? ligneSelectionnee.id : null}
+            onSelect={setLigneSelectionnee}
+          />
+        )}
         <DetailLigne ligne={ligneSelectionnee} />
       </main>
 

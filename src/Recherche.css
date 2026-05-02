@@ -1,4 +1,4 @@
-﻿.recherche-container {
+.recherche-container {
   margin: 16px auto;
   max-width: 800px;
   display: flex;
@@ -11,7 +11,13 @@
   color: #1f2937;
 }
 
+.recherche-actions {
+  display: flex;
+  gap: 8px;
+}
+
 .recherche-input {
+  flex: 1;
   border: 1px solid #d1d5db;
   border-radius: 8px;
   padding: 10px 12px;
@@ -22,4 +28,12 @@
   outline: none;
   border-color: #2563eb;
   box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.15);
+}
+
+.recherche-effacer {
+  border: 1px solid #cbd5e1;
+  background: #ffffff;
+  border-radius: 8px;
+  padding: 10px 12px;
+  cursor: pointer;
 }
