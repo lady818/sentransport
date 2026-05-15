@@ -1,5 +1,5 @@
-﻿import "./App.css";
-import { useEffect, useState } from "react";
+import "./App.css";
+import { useCallback, useEffect, useState } from "react";
 import Header from "./Header";
 import Footer from "./Footer";
 import ListeLignes from "./ListeLignes";
@@ -15,7 +15,10 @@ function App() {
   const [ligneSelectionnee, setLigneSelectionnee] = useState(null);
   const [nbRecherches, setNbRecherches] = useState(0);
 
-  useEffect(() => {
+  const chargerLignes = useCallback(() => {
+    setChargement(true);
+    setErreur(null);
+
     fetch("http://localhost:5000/lignes")
       .then((response) => {
         if (!response.ok) {
@@ -31,6 +34,27 @@ function App() {
       .catch((error) => {
         setErreur(error.message);
         setChargement(false);
+      });
+  }, []);
+
+  useEffect(() => {
+    chargerLignes();
+  }, [chargerLignes]);
+
+  const chargerDetailLigne = useCallback((ligne) => {
+    fetch(`http://localhost:5000/lignes/${ligne.id}`)
+      .then((response) => {
+        if (!response.ok) {
+          throw new Error("Erreur serveur : " + response.status);
+        }
+
+        return response.json();
+      })
+      .then((data) => {
+        setLigneSelectionnee(data);
+      })
+      .catch((error) => {
+        setErreur(error.message);
       });
   }, []);
 
@@ -84,6 +108,9 @@ function App() {
           }}
           onClear={() => setRecherche("")}
         />
+        <button type="button" className="bouton-recharger" onClick={chargerLignes}>
+          Recharger
+        </button>
 
         <StatReseau lignes={lignesFiltrees} />
         {lignesFiltrees.length === 0 ? (
@@ -92,7 +119,7 @@ function App() {
           <ListeLignes
             lignes={lignesFiltrees}
             ligneSelectionneeId={ligneSelectionnee ? ligneSelectionnee.id : null}
-            onSelect={setLigneSelectionnee}
+            onSelect={chargerDetailLigne}
           />
         )}
         <DetailLigne ligne={ligneSelectionnee} />

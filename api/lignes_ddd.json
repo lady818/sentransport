@@ -92,5 +92,38 @@
       "HLM",
       "Sandaga"
     ]
+  },
+  {
+    "id": 7,
+    "numero": "34",
+    "depart": "Rufisque",
+    "arrivee": "Plateau",
+    "arrets": 20,
+    "listeArrets": [
+      "Rufisque",
+      "Bargny",
+      "Diamniadio",
+      "Keur Massar",
+      "Pikine",
+      "Hann",
+      "Colobane",
+      "Plateau"
+    ]
+  },
+  {
+    "id": 8,
+    "numero": "18",
+    "depart": "Keur Massar",
+    "arrivee": "Universite Cheikh Anta Diop",
+    "arrets": 15,
+    "listeArrets": [
+      "Keur Massar",
+      "Yeumbeul",
+      "Thiaroye",
+      "Pikine",
+      "Grand Yoff",
+      "Fann",
+      "UCAD"
+    ]
   }
 ]

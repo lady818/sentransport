@@ -26,6 +26,19 @@
   flex: 1;
 }
 
+.bouton-recharger {
+  border: 1px solid #cbd5e1;
+  background: #ffffff;
+  border-radius: 8px;
+  padding: 10px 14px;
+  cursor: pointer;
+  margin-bottom: 16px;
+}
+
+.bouton-recharger:hover {
+  background: #f1f5f9;
+}
+
 @media (max-width: 600px) {
   .contenu {
     padding: 12px;
