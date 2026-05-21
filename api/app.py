@@ -9,6 +9,9 @@ CORS(app)
 with open("lignes_ddd.json", "r") as f:
     lignes = json.load(f)
 
+with open("arrets.json", "r") as f:
+    arrets = json.load(f)
+
 
 @app.route("/")
 def accueil():
@@ -44,12 +47,7 @@ def get_ligne(ligne_id):
 
 @app.route("/arrets")
 def get_arrets():
-    arrets = set()
-
-    for ligne in lignes:
-        arrets.update(ligne["listeArrets"])
-
-    return jsonify(sorted(arrets))
+    return jsonify(arrets)
 
 
 @app.route("/stats")

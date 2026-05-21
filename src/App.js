@@ -6,6 +6,7 @@ import ListeLignes from "./ListeLignes";
 import StatReseau from "./StatReseau";
 import Recherche from "./Recherche";
 import DetailLigne from "./DetailLigne";
+import Carte from "./Carte";
 
 function App() {
   const [lignes, setLignes] = useState([]);
@@ -123,6 +124,7 @@ function App() {
           />
         )}
         <DetailLigne ligne={ligneSelectionnee} />
+        <Carte />
       </main>
 
       <Footer />
