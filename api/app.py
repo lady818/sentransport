@@ -5,7 +5,6 @@ from flask_cors import CORS
 app = Flask(__name__)
 CORS(app)
 
-# Charger les donnees depuis le fichier JSON
 with open("lignes_ddd.json", "r") as f:
     lignes = json.load(f)
 
@@ -31,7 +30,6 @@ def get_lignes():
 
 @app.route("/lignes/<int:ligne_id>")
 def get_ligne(ligne_id):
-
     ligne = next(
         (l for l in lignes if l["id"] == ligne_id),
         None
@@ -71,6 +69,39 @@ def rechercher_lignes():
     ]
 
     return jsonify(resultats)
+
+
+incidents = []
+
+
+@app.route("/incidents", methods=["GET"])
+def get_incidents():
+    return jsonify(incidents)
+
+
+@app.route("/incidents", methods=["POST"])
+def post_incident():
+    data = request.get_json()
+
+    if (
+        not data
+        or "ligne" not in data
+        or "description" not in data
+    ):
+        return jsonify({
+            "erreur": "Champs requis manquants"
+        }), 400
+
+    incident = {
+        "id": len(incidents) + 1,
+        "ligne": data["ligne"],
+        "description": data["description"],
+        "lieu": data.get("lieu", "Non precisé"),
+    }
+
+    incidents.append(incident)
+
+    return jsonify(incident), 201
 
 
 if __name__ == "__main__":

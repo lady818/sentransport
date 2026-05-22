@@ -1,4 +1,4 @@
-import "./App.css";
+﻿import "./App.css";
 import { useCallback, useEffect, useState } from "react";
 import Header from "./Header";
 import Footer from "./Footer";
@@ -7,6 +7,8 @@ import StatReseau from "./StatReseau";
 import Recherche from "./Recherche";
 import DetailLigne from "./DetailLigne";
 import Carte from "./Carte";
+import Meteo from "./Meteo";
+import SignalerIncident from "./SignalerIncident";
 
 function App() {
   const [lignes, setLignes] = useState([]);
@@ -55,7 +57,7 @@ function App() {
         setLigneSelectionnee(data);
       })
       .catch((error) => {
-        setErreur(error.message);
+        console.error("Erreur detail ligne :", error.message);
       });
   }, []);
 
@@ -67,38 +69,27 @@ function App() {
       ligne.arrivee.toLowerCase().includes(terme)
     );
   });
-  // ecran de chargement
+
+  let contenuPrincipal;
+
   if (chargement) {
-    return (
-      <div className="App">
-        <Header />
-        <main className="contenu">
-          <p className="message-chargement">Chargement des lignes...</p>
-        </main>
+    contenuPrincipal = (
+      <p className="message-chargement">Chargement des lignes...</p>
+    );
+  } else if (erreur) {
+    contenuPrincipal = (
+      <div className="message-erreur">
+        <p>Impossible de charger les lignes.</p>
+        <p className="erreur-detail">{erreur}</p>
+        <p>Verifiez que le serveur Flask est lance (python api/app.py).</p>
+        <button type="button" className="bouton-recharger" onClick={chargerLignes}>
+          Recharger
+        </button>
       </div>
     );
-  }
-  // ecran d'erreur
-  if (erreur) {
-    return (
-      <div className="App">
-        <Header />
-        <main className="contenu">
-          <div className="message-erreur">
-            <p>Impossible de charger les lignes.</p>
-            <p className="erreur-detail">{erreur}</p>
-            <p>Verifiez que le serveur Flask est lance (python api/app.py).</p>
-          </div>
-        </main>
-      </div>
-    );
-  }
-
-  return (
-    <div className="App">
-      <Header />
-
-      <main className="contenu">
+  } else {
+    contenuPrincipal = (
+      <>
         <p>Vous avez effectue {nbRecherches} recherche(s).</p>
         <p>Bienvenue ! Cette application vous aide a trouver votre ligne de bus a Dakar.</p>
         <Recherche
@@ -125,10 +116,23 @@ function App() {
         )}
         <DetailLigne ligne={ligneSelectionnee} />
         <Carte />
+        <SignalerIncident />
+      </>
+    );
+  }
+
+  return (
+    <div className="App">
+      <Header />
+
+      <main className="contenu">
+        <Meteo />
+        {contenuPrincipal}
       </main>
 
       <Footer />
     </div>
   );
 }
+
 export default App;
