@@ -64,3 +64,69 @@
   font-family: monospace;
   font-size: 0.85rem;
 }
+
+.meteo-previsions {
+  margin-top: 16px;
+  padding-top: 12px;
+  border-top: 1px solid #ecf0f1;
+}
+
+.meteo-previsions-titre {
+  margin: 0 0 12px 0;
+  font-size: 1rem;
+  color: #2c3e50;
+}
+
+.meteo-previsions-chargement,
+.meteo-previsions-erreur {
+  font-size: 0.85rem;
+  color: #7f8c8d;
+  margin: 0;
+}
+
+.meteo-previsions-erreur {
+  color: #c62828;
+}
+
+.meteo-previsions-grille {
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.prevision-jour {
+  flex: 1;
+  min-width: 100px;
+  background: #f8f9fa;
+  border-radius: 8px;
+  padding: 10px;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+}
+
+.prevision-label {
+  font-weight: 600;
+  color: #2c3e50;
+  font-size: 0.85rem;
+  text-transform: capitalize;
+}
+
+.prevision-icone {
+  width: 40px;
+  height: 40px;
+}
+
+.prevision-temps {
+  font-weight: bold;
+  color: #0a6e31;
+  font-size: 0.9rem;
+}
+
+.prevision-desc {
+  font-size: 0.75rem;
+  color: #7f8c8d;
+  text-transform: capitalize;
+}

@@ -1,12 +1,32 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import "./SignalerIncident.css";
 
-function SignalerIncident() {
+function SignalerIncident({ onSignale }) {
+  const [lignes, setLignes] = useState([]);
+  const [chargementLignes, setChargementLignes] = useState(true);
   const [ligne, setLigne] = useState("");
   const [description, setDescription] = useState("");
   const [lieu, setLieu] = useState("");
   const [message, setMessage] = useState(null);
   const [enCours, setEnCours] = useState(false);
+
+  useEffect(() => {
+    fetch("http://localhost:5000/lignes")
+      .then((r) => {
+        if (!r.ok) {
+          throw new Error("Erreur chargement lignes");
+        }
+
+        return r.json();
+      })
+      .then((data) => {
+        setLignes(data);
+        setChargementLignes(false);
+      })
+      .catch(() => {
+        setChargementLignes(false);
+      });
+  }, []);
 
   function handleSubmit() {
     if (!ligne || !description) {
@@ -22,11 +42,9 @@ function SignalerIncident() {
 
     fetch("http://localhost:5000/incidents", {
       method: "POST",
-
       headers: {
         "Content-Type": "application/json",
       },
-
       body: JSON.stringify({
         ligne,
         description,
@@ -43,16 +61,16 @@ function SignalerIncident() {
       .then((data) => {
         setMessage({
           type: "succes",
-          texte:
-            "Incident #" +
-            data.id +
-            " signalé. Merci !",
+          texte: "Incident #" + data.id + " signalé. Merci !",
         });
 
         setLigne("");
         setDescription("");
         setLieu("");
         setEnCours(false);
+        if (onSignale) {
+          onSignale();
+        }
       })
       .catch((err) => {
         setMessage({
@@ -66,18 +84,30 @@ function SignalerIncident() {
 
   return (
     <div className="signaler">
-      <h2 className="signaler-titre">
-        Signaler un incident
-      </h2>
+      <h2 className="signaler-titre">Signaler un incident</h2>
 
       <div className="signaler-form">
-        <input
-          type="text"
-          placeholder="Numéro de ligne (ex: 15)"
+        <label htmlFor="signaler-ligne" className="signaler-label">
+          Ligne de bus
+        </label>
+        <select
+          id="signaler-ligne"
           value={ligne}
           onChange={(e) => setLigne(e.target.value)}
-          className="signaler-input"
-        />
+          className="signaler-select"
+          disabled={chargementLignes || lignes.length === 0}
+        >
+          <option value="">
+            {chargementLignes
+              ? "Chargement des lignes..."
+              : "-- Choisir une ligne --"}
+          </option>
+          {lignes.map((l) => (
+            <option key={l.id} value={l.numero}>
+              Ligne {l.numero} — {l.depart} → {l.arrivee}
+            </option>
+          ))}
+        </select>
 
         <input
           type="text"
@@ -100,16 +130,12 @@ function SignalerIncident() {
           disabled={enCours}
           className="signaler-btn"
         >
-          {enCours
-            ? "Envoi en cours..."
-            : "Signaler"}
+          {enCours ? "Envoi en cours..." : "Signaler"}
         </button>
       </div>
 
       {message && (
-        <div
-          className={`signaler-message signaler-${message.type}`}
-        >
+        <div className={`signaler-message signaler-${message.type}`}>
           {message.texte}
         </div>
       )}

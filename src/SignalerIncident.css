@@ -18,7 +18,14 @@
   gap: 12px;
 }
 
+.signaler-label {
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: #2c3e50;
+}
+
 .signaler-input,
+.signaler-select,
 .signaler-textarea {
   padding: 10px 14px;
   font-size: 1rem;
@@ -27,9 +34,17 @@
   outline: none;
   box-sizing: border-box;
   font-family: inherit;
+  width: 100%;
+  background: #fff;
+}
+
+.signaler-select:disabled {
+  background: #f5f5f5;
+  color: #7f8c8d;
 }
 
 .signaler-input:focus,
+.signaler-select:focus,
 .signaler-textarea:focus {
   border-color: #0a6e31;
 }

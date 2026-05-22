@@ -9,6 +9,7 @@ import DetailLigne from "./DetailLigne";
 import Carte from "./Carte";
 import Meteo from "./Meteo";
 import SignalerIncident from "./SignalerIncident";
+import ListeIncidents from "./ListeIncidents";
 
 function App() {
   const [lignes, setLignes] = useState([]);
@@ -17,6 +18,7 @@ function App() {
   const [recherche, setRecherche] = useState("");
   const [ligneSelectionnee, setLigneSelectionnee] = useState(null);
   const [nbRecherches, setNbRecherches] = useState(0);
+  const [versionIncidents, setVersionIncidents] = useState(0);
 
   const chargerLignes = useCallback(() => {
     setChargement(true);
@@ -116,7 +118,8 @@ function App() {
         )}
         <DetailLigne ligne={ligneSelectionnee} />
         <Carte />
-        <SignalerIncident />
+        <SignalerIncident onSignale={() => setVersionIncidents((v) => v + 1)} />
+        <ListeIncidents actualiser={versionIncidents} />
       </>
     );
   }
